@@ -25,24 +25,27 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            /* Białe tło pasujące do grafiki */
-            background-color: #ffffff; 
+            /* WYMUSZONA BIEL - aby strona nie była czarna */
+            background-color: #ffffff !important; 
             color: var(--text-main);
             overflow: hidden;
         }
 
-        /* TŁO - Upewnij się, że plik nazywa się background.jpg */
+        /* TŁO - Próba załadowania pliku background.jpg */
         .bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('background.jpg'); 
+            /* Próbujemy './' dla pewności ścieżki */
+            background-image: url('./background.PNG'); 
             background-size: cover;
             background-position: center right;
             background-repeat: no-repeat;
             z-index: 1;
+            /* Jeśli obrazek się nie wczyta, ta warstwa będzie biała */
+            background-color: #ffffff;
         }
 
         .main-container {
@@ -55,7 +58,6 @@
             padding-left: 8%;
         }
 
-        /* Karta PseudoPKP */
         .card {
             background: var(--glass);
             backdrop-filter: blur(15px);
@@ -91,13 +93,11 @@
             margin-bottom: 20px;
         }
 
-        /* KONTENER NA GIF POCIĄGU */
         .train-gif-container {
             width: 100%;
             margin: 20px 0;
             border-radius: 12px;
             overflow: hidden;
-            background: #f8f9fa; /* Lekkie tło pod GIFem */
         }
 
         .buttons {
@@ -161,7 +161,7 @@
             </div>
 
             <div class="terminal">
-                python3 pseudo_pkp_controller.py --train=bwegt --status=running
+                python3 pseudo_pkp.py --background=check --status=fix_needed
             </div>
         </div>
     </div>

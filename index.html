@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PPKP - Serwer Kolejowy</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* Zmienne kolorów */
+        /* Reset i ustawienia podstawowe */
         :root {
-            --primary: #2ecc71;
-            --accent: #3498db;
-            --glass: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #2ecc71; /* Zielony kolejowy */
+            --glass: rgba(0, 0, 0, 0.4); /* Ciemniejsze szkło dla lepszego kontrastu */
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body, html {
@@ -21,168 +25,173 @@
             height: 100%;
             font-family: 'Montserrat', sans-serif;
             color: white;
-            background-color: #1a1a1a;
+            background-color: #000; /* Kolor zapasowy */
             overflow-x: hidden;
         }
 
-        /* TŁO - Ustaw tutaj nazwę swojego pliku */
-        /* TŁO - Zmienione na background.png */
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('background.png') no-repeat center center;
-    background-size: cover;
-    z-index: -1;
-    filter: brightness(0.5); 
-    transform: scale(1.1);
-}
+        /* WARSTWA TŁA (background.png) */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* WAŻNE: Plik background.png musi być w tym samym folderze co index.html */
+            background-image: url('background.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            filter: brightness(0.6) contrast(1.1);
+            transform: scale(1.05); /* Zapobiega białym krawędziom przy parallax */
+        }
 
-        /* Kontener główny */
-        .wrapper {
+        /* Główny kontener */
+        .main-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
         }
 
-        /* Szklany panel (Glassmorphism) */
-        .glass-card {
+        /* Nowoczesna karta (Glassmorphism) */
+        .card {
             background: var(--glass);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 50px;
-            max-width: 800px;
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 750px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            animation: slideUp 1s ease-out;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: fadeIn 1.2s ease-in-out;
         }
 
         h1 {
-            font-size: clamp(2rem, 8vw, 4rem);
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
             margin: 0;
-            letter-spacing: 4px;
-            background: linear-gradient(to right, #fff, var(--primary));
+            font-weight: 700;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 0%, #2ecc71 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
+        .tagline {
             font-family: 'JetBrains Mono', monospace;
-            color: var(--primary);
-            font-size: 1.1rem;
+            color: #2ecc71;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             margin-bottom: 30px;
-            opacity: 0.9;
+            font-size: 0.9rem;
         }
 
-        /* Animacja przejeżdżającego pociągu */
-        .train-track {
-            width: 100%;
-            height: 40px;
+        /* Animacja torów */
+        .railway-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            margin: 25px 0;
             position: relative;
             overflow: hidden;
-            margin: 20px 0;
-            border-bottom: 2px dashed rgba(255,255,255,0.2);
         }
 
-        .train {
+        .train-icon {
             position: absolute;
             font-size: 1.5rem;
-            animation: moveTrain 12s linear infinite;
+            top: -15px;
+            animation: trainDrive 8s linear infinite;
         }
 
-        /* Przyciski */
-        .nav-links {
+        /* Sekcja przycisków */
+        .buttons {
             display: flex;
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 30px;
+            margin-top: 35px;
         }
 
         .btn {
-            text-decoration: none;
-            color: white;
-            padding: 12px 25px;
+            padding: 14px 28px;
             border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.05);
-            transition: 0.3s;
+            text-decoration: none;
             font-weight: bold;
-            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #2ecc71;
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .btn:hover {
-            background: white;
-            color: black;
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
         }
 
-        .btn-main {
-            background: var(--primary);
-            border-color: var(--primary);
+        /* Animacje */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        /* Opis serwera */
-        .info {
+        @keyframes trainDrive {
+            0% { left: -50px; }
+            100% { left: 105%; }
+        }
+
+        /* Opis programistyczny */
+        .footer-info {
             margin-top: 40px;
-            line-height: 1.6;
-            color: #ccc;
-            text-align: left;
-            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #888;
         }
 
-        /* Animacje CSS */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes moveTrain {
-            0% { left: -100px; }
-            100% { left: 100%; }
-        }
-
-        code {
-            color: var(--primary);
-            background: rgba(0,0,0,0.3);
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
+        span.code-green { color: #2ecc71; }
     </style>
 </head>
 <body>
 
-    <div class="background"></div>
+    <div class="bg-layer"></div>
 
-    <div class="wrapper">
-        <main class="glass-card">
+    <div class="main-container">
+        <div class="card">
             <h1>PPKP</h1>
-            <div class="subtitle">Podstawy Projektowania Kolei Państwowych</div>
+            <div class="tagline">Polska Państwowa Kolej Projektowa</div>
 
-            <div class="train-track">
-                <div class="train">🚂🚃🚃🚃</div>
+            <div class="railway-line">
+                <div class="train-icon">🚂</div>
             </div>
 
-            <p>Witamy na pokładzie! Jesteśmy społecznością miłośników kolei w Minecraft.</p>
+            <p>Budujemy przyszłość polskiej kolei w świecie Minecraft. Dołącz do serwera opartego na silniku Forge i twórz z nami niesamowite konstrukcje.</p>
 
-            <div class="nav-links">
-                <a href="#" class="btn btn-main">Pobierz Modpack (Forge)</a>
-                <a href="#" class="btn">Regulamin</a>
-                <a href="#" class="btn">Discord Serwera</a>
+            <div class="buttons">
+                <a href="#" class="btn btn-primary">Pobierz Modpack</a>
+                <a href="#" class="btn btn-secondary">Discord</a>
+                <a href="#" class="btn btn-secondary">Mapa Online</a>
             </div>
 
-            <div class="info">
-                <p><strong>Dlaczego my?</strong><br>
-                Używamy tylko sprawdzonych modyfikacji na <code>Forge</code>, aby zapewnić stabilną jazdę i realistyczne systemy sterowania ruchem kolejowym.</p>
+            <div class="footer-info">
+                > status: <span class="code-green">online</span><br>
+                > environment: <span class="code-green">Forge Modded</span><br>
+                > location: <span class="code-green">Bardo / Wrocław</span>
             </div>
-        </main>
+        </div>
     </div>
 
 </body>

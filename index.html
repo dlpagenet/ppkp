@@ -10,10 +10,11 @@
     <style>
         :root {
             --primary: #2ecc71;
-            /* Ciemniejszy tekst i szkło, bo tło obrazka jest jasne */
-            --glass: rgba(255, 255, 255, 0.8); 
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --text-color: #202124;
+            --google-blue: #1a73e8;
+            --glass: rgba(255, 255, 255, 0.85); 
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --text-main: #202124;
+            --text-sub: #5f6368;
         }
 
         * { 
@@ -25,13 +26,13 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            /* WYMUSZONE BIAŁE TŁO - aby pasowało do background.png */
+            /* Wymuszamy białe tło pod spodem */
             background-color: #ffffff; 
-            color: var(--text-color);
+            color: var(--text-main);
             overflow: hidden;
         }
 
-        /* WARSTWA TŁA */
+        /* WARSTWA TŁA (background.png) */
         .bg-layer {
             position: fixed;
             top: 0;
@@ -40,60 +41,62 @@
             height: 100vh;
             background-image: url('background.png'); 
             background-size: cover;
-            background-position: center right; /* Przesunięcie szyn do prawej */
+            background-position: center right; /* Szyny po prawej stronie */
             background-repeat: no-repeat;
             z-index: 1;
         }
 
-        /* Kontener przesunięty do lewej */
+        /* Kontener główny - wyrównanie do lewej */
         .main-container {
             position: relative;
             z-index: 2;
             height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Wszystko do lewej */
-            padding-left: 8%; /* Odstęp od krawędzi ekranu */
+            justify-content: flex-start;
+            padding-left: 10%; /* Odstęp od lewej krawędzi */
         }
 
         /* Karta z informacjami */
         .card {
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 40px;
-            max-width: 500px;
+            padding: 48px;
+            max-width: 480px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            animation: slideIn 0.8s ease-out;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 3.2rem;
             margin: 0;
-            color: #1a1a1a;
             font-weight: 500;
+            letter-spacing: -0.5px;
         }
 
         .tagline {
-            color: var(--primary);
+            color: var(--google-blue);
             font-size: 1.1rem;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            font-weight: 500;
         }
 
         p {
             line-height: 1.6;
-            color: #5f6368;
+            color: var(--text-sub);
+            font-size: 1.05rem;
         }
 
-        /* Mały pociąg na dole karty */
-        .railway-mini {
+        /* Animacja torów pod tekstem */
+        .rail-anim {
             width: 100%;
             height: 2px;
-            background: #eee;
-            margin: 30px 0;
+            background: #f1f3f4;
+            margin: 32px 0;
             position: relative;
         }
 
@@ -101,56 +104,61 @@
             position: absolute;
             top: -15px;
             left: 0;
-            font-size: 1.2rem;
-            animation: drive 5s linear infinite;
+            font-size: 1.4rem;
+            animation: driveTrain 6s linear infinite;
         }
 
+        /* Przyciski */
         .buttons {
             display: flex;
-            gap: 12px;
-            margin-top: 30px;
+            gap: 16px;
+            margin-top: 32px;
         }
 
         .btn {
             padding: 12px 24px;
-            border-radius: 12px;
+            border-radius: 100px; /* Styl Google "Pill" */
             text-decoration: none;
             font-weight: 500;
-            transition: 0.2s;
-            font-size: 0.9rem;
+            transition: 0.2s ease;
+            font-size: 0.95rem;
+            display: inline-block;
+            text-align: center;
         }
 
-        .btn-main {
-            background: #1a73e8; /* Niebieski styl Google */
+        .btn-blue {
+            background: var(--google-blue);
             color: white;
         }
 
-        .btn-sec {
-            background: #f1f3f4;
-            color: #3c4043;
+        .btn-outline {
+            background: transparent;
+            color: var(--google-blue);
+            border: 1px solid #dadce0;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(60,64,67, 0.3), 0 4px 8px 3px rgba(60,64,67, 0.15);
+            filter: brightness(1.05);
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-50px); }
+        /* Animacje */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        @keyframes drive {
-            0% { left: 0%; }
-            100% { left: 90%; }
+        @keyframes driveTrain {
+            0% { left: -10%; }
+            100% { left: 100%; }
         }
 
-        /* Terminal info dla programisty */
-        .dev-tag {
-            margin-top: 25px;
+        /* Programistyczny detal */
+        .version-info {
+            margin-top: 32px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
-            color: #9aa0a6;
+            color: #bdc1c6;
         }
     </style>
 </head>
@@ -161,21 +169,21 @@
     <div class="main-container">
         <div class="card">
             <h1>PPKP</h1>
-            <div class="tagline">Serwer Kolejowy Minecraft</div>
+            <div class="tagline">Polska Państwowa Kolej Projektowa</div>
 
-            <p>Budujemy najbardziej zaawansowane linie kolejowe na Dolnym Śląsku i nie tylko. Dołącz do nas na Forge.</p>
+            <p>Dołącz do profesjonalnego serwera kolejowego Minecraft. Tworzymy realistyczne składy i infrastrukturę na silniku Forge.</p>
             
-            <div class="railway-mini">
+            <div class="rail-anim">
                 <div class="train">🚂</div>
             </div>
 
             <div class="buttons">
-                <a href="#" class="btn btn-main">Zagraj teraz</a>
-                <a href="#" class="btn btn-sec">Discord</a>
+                <a href="#" class="btn btn-blue">Pobierz Modpack</a>
+                <a href="https://discord.gg/KYSZdvXafS" target="_blank" class="btn btn-outline">Discord</a>
             </div>
 
-            <div class="dev-tag">
-                $ python3 server_check.py --location="Bardo"
+            <div class="version-info">
+                python@ppkp:~$ ./start_server.sh --region=dolnoslaskie
             </div>
         </div>
     </div>

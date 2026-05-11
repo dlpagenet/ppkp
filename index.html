@@ -10,7 +10,7 @@
     <style>
         :root {
             --google-blue: #1a73e8;
-            --glass: rgba(255, 255, 255, 0.88); 
+            --glass: rgba(255, 255, 255, 0.9); 
             --glass-border: rgba(0, 0, 0, 0.08);
             --text-main: #202124;
             --text-sub: #5f6368;
@@ -25,19 +25,20 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            /* Białe tło pasujące do grafiki */
             background-color: #ffffff; 
             color: var(--text-main);
             overflow: hidden;
         }
 
-        /* TŁO - background.png */
+        /* TŁO - Upewnij się, że plik nazywa się background.jpg */
         .bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('background.png'); 
+            background-image: url('background.jpg'); 
             background-size: cover;
             background-position: center right;
             background-repeat: no-repeat;
@@ -61,7 +62,7 @@
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
             border-radius: 28px;
-            padding: 50px;
+            padding: 40px;
             max-width: 520px;
             width: 100%;
             box-shadow: 0 15px 35px rgba(0,0,0,0.05);
@@ -79,7 +80,7 @@
         .tagline {
             color: var(--google-blue);
             font-size: 1.2rem;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 500;
         }
 
@@ -87,28 +88,22 @@
             line-height: 1.6;
             color: var(--text-sub);
             font-size: 1.1rem;
+            margin-bottom: 20px;
         }
 
-        /* Animacja pociągu */
-        .rail-track {
+        /* KONTENER NA GIF POCIĄGU */
+        .train-gif-container {
             width: 100%;
-            height: 2px;
-            background: #e8eaed;
-            margin: 35px 0;
-            position: relative;
-        }
-
-        .train {
-            position: absolute;
-            top: -18px;
-            font-size: 1.6rem;
-            animation: move 7s linear infinite;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f8f9fa; /* Lekkie tło pod GIFem */
         }
 
         .buttons {
             display: flex;
             gap: 15px;
-            margin-top: 35px;
+            margin-top: 30px;
         }
 
         .btn {
@@ -118,25 +113,21 @@
             font-weight: 500;
             transition: 0.3s;
             font-size: 1rem;
+            display: inline-block;
         }
 
         .btn-blue { background: var(--google-blue); color: white; }
         .btn-outline { border: 1px solid #dadce0; color: var(--google-blue); }
 
-        .btn:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-40px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        @keyframes move {
-            0% { left: -10%; }
-            100% { left: 100%; }
-        }
-
         .terminal {
-            margin-top: 35px;
+            margin-top: 30px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             color: #bdc1c6;
@@ -155,10 +146,13 @@
             <h1>PseudoPKP</h1>
             <div class="tagline">Prawie jak prawdziwa kolej</div>
 
-            <p>Najlepszy (i jedyny taki) serwer kolejowy na modach Forge. Budujemy tory, bo lubimy pociągi, a nie opóźnienia!</p>
+            <p>Najlepszy serwer kolejowy na modach Forge. Budujemy pociągi, które (zazwyczaj) dojeżdżają do celu!</p>
             
-            <div class="rail-track">
-                <div class="train">🚂</div>
+            <div class="train-gif-container">
+                <div class="tenor-gif-embed" data-postid="18293705" data-share-method="host" data-aspect-ratio="2.71186" data-width="100%">
+                    <a href="https://tenor.com/view/bwegt-bwegtbw-train-zug-mobil-gif-18293705">Bwegt Bwegtbw Sticker</a>
+                </div>
+                <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
             </div>
 
             <div class="buttons">
@@ -167,7 +161,7 @@
             </div>
 
             <div class="terminal">
-                python3 pseudo_pkp_controller.py --mode=full_speed
+                python3 pseudo_pkp_controller.py --train=bwegt --status=running
             </div>
         </div>
     </div>

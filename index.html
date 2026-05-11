@@ -10,20 +10,25 @@
     <style>
         :root {
             --primary: #2ecc71;
-            --glass: rgba(0, 0, 0, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            /* Ciemniejszy tekst i szkło, bo tło obrazka jest jasne */
+            --glass: rgba(255, 255, 255, 0.8); 
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-color: #202124;
         }
 
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Google Sans', sans-serif;
+        }
 
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Google Sans', sans-serif;
-            color: white;
-            background-color: #111; /* Bardzo ciemny szary, żeby nie było czystej czerni */
-            overflow-x: hidden;
+            /* WYMUSZONE BIAŁE TŁO - aby pasowało do background.png */
+            background-color: #ffffff; 
+            color: var(--text-color);
+            overflow: hidden;
         }
 
         /* WARSTWA TŁA */
@@ -33,102 +38,119 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Używamy ./ aby wskazać bieżący katalog */
-            background-image: url('./background.png'); 
+            background-image: url('background.png'); 
             background-size: cover;
-            background-position: center;
+            background-position: center right; /* Przesunięcie szyn do prawej */
             background-repeat: no-repeat;
-            z-index: -1;
-            filter: brightness(0.6);
-            transform: scale(1.02);
+            z-index: 1;
         }
 
+        /* Kontener przesunięty do lewej */
         .main-container {
-            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+            height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: flex-start; /* Wszystko do lewej */
+            padding-left: 8%; /* Odstęp od krawędzi ekranu */
         }
 
+        /* Karta z informacjami */
         .card {
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 40px;
-            max-width: 700px;
+            max-width: 500px;
             width: 100%;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            animation: fadeIn 1s ease-in;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: slideIn 0.8s ease-out;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: 3rem;
             margin: 0;
-            background: linear-gradient(to bottom, #fff, #2ecc71);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #1a1a1a;
+            font-weight: 500;
         }
 
         .tagline {
-            font-family: 'JetBrains Mono', monospace;
-            color: #2ecc71;
-            margin-bottom: 25px;
-            font-size: 0.9rem;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
         }
 
-        /* Animacja torów i pociągu */
-        .railway {
-            height: 4px;
-            background: rgba(255,255,255,0.1);
+        p {
+            line-height: 1.6;
+            color: #5f6368;
+        }
+
+        /* Mały pociąg na dole karty */
+        .railway-mini {
+            width: 100%;
+            height: 2px;
+            background: #eee;
             margin: 30px 0;
             position: relative;
-            border-radius: 2px;
         }
 
         .train {
             position: absolute;
-            top: -20px;
-            font-size: 1.8rem;
-            animation: drive 10s linear infinite;
+            top: -15px;
+            left: 0;
+            font-size: 1.2rem;
+            animation: drive 5s linear infinite;
         }
 
         .buttons {
             display: flex;
             gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
             margin-top: 30px;
         }
 
         .btn {
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 12px;
             text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 500;
+            transition: 0.2s;
             font-size: 0.9rem;
         }
 
-        .btn-main { background: #2ecc71; color: #000; }
-        .btn-sec { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--glass-border); }
-
-        .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes drive {
-            0% { left: -10%; }
-            100% { left: 110%; }
+        .btn-main {
+            background: #1a73e8; /* Niebieski styl Google */
+            color: white;
         }
 
-        .footer {
-            margin-top: 30px;
+        .btn-sec {
+            background: #f1f3f4;
+            color: #3c4043;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes drive {
+            0% { left: 0%; }
+            100% { left: 90%; }
+        }
+
+        /* Terminal info dla programisty */
+        .dev-tag {
+            margin-top: 25px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            opacity: 0.5;
+            font-size: 0.7rem;
+            color: #9aa0a6;
         }
     </style>
 </head>
@@ -139,26 +161,24 @@
     <div class="main-container">
         <div class="card">
             <h1>PPKP</h1>
-            <div class="tagline">Polska Państwowa Kolej Projektowa</div>
+            <div class="tagline">Serwer Kolejowy Minecraft</div>
 
-            <p>Witaj na stronie serwera PPKP. Tworzymy pociągi z pasją na modach Forge.</p>
+            <p>Budujemy najbardziej zaawansowane linie kolejowe na Dolnym Śląsku i nie tylko. Dołącz do nas na Forge.</p>
             
-            <div class="railway">
+            <div class="railway-mini">
                 <div class="train">🚂</div>
             </div>
 
             <div class="buttons">
-                <a href="#" class="btn btn-main">Pobierz Modpack</a>
+                <a href="#" class="btn btn-main">Zagraj teraz</a>
                 <a href="#" class="btn btn-sec">Discord</a>
             </div>
 
-            <div class="footer">
-                Python dev detected. Build version: 1.0.4
+            <div class="dev-tag">
+                $ python3 server_check.py --location="Bardo"
             </div>
         </div>
     </div>
 
-</body>
-</html>
 </body>
 </html>

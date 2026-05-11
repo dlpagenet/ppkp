@@ -25,26 +25,24 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            /* WYMUSZONA BIEL - aby strona nie była czarna */
+            /* Wymuszamy biel, żeby nie było czarno */
             background-color: #ffffff !important; 
             color: var(--text-main);
             overflow: hidden;
         }
 
-        /* TŁO - Próba załadowania pliku background.jpg */
+        /* TŁO - Ustawione na background.png */
         .bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Próbujemy './' dla pewności ścieżki */
-            background-image: url('./background.PNG'); 
+            background-image: url('background.png'); 
             background-size: cover;
             background-position: center right;
             background-repeat: no-repeat;
             z-index: 1;
-            /* Jeśli obrazek się nie wczyta, ta warstwa będzie biała */
             background-color: #ffffff;
         }
 
@@ -161,7 +159,7 @@
             </div>
 
             <div class="terminal">
-                python3 pseudo_pkp.py --background=check --status=fix_needed
+                python3 pseudo_pkp.py --background-fix=applied --ext=png
             </div>
         </div>
     </div>

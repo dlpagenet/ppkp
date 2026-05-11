@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPKP - Serwer Kolejowy</title>
+    <title>PseudoPKP - Serwer Kolejowy</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:opsz,wght@17..18,500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #2ecc71;
             --google-blue: #1a73e8;
-            --glass: rgba(255, 255, 255, 0.85); 
+            --glass: rgba(255, 255, 255, 0.88); 
             --glass-border: rgba(0, 0, 0, 0.08);
             --text-main: #202124;
             --text-sub: #5f6368;
@@ -26,13 +25,12 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            /* Wymuszamy białe tło pod spodem */
             background-color: #ffffff; 
             color: var(--text-main);
             overflow: hidden;
         }
 
-        /* WARSTWA TŁA (background.png) */
+        /* TŁO - background.png */
         .bg-layer {
             position: fixed;
             top: 0;
@@ -41,12 +39,11 @@
             height: 100vh;
             background-image: url('background.png'); 
             background-size: cover;
-            background-position: center right; /* Szyny po prawej stronie */
+            background-position: center right;
             background-repeat: no-repeat;
             z-index: 1;
         }
 
-        /* Kontener główny - wyrównanie do lewej */
         .main-container {
             position: relative;
             z-index: 2;
@@ -54,111 +51,98 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding-left: 10%; /* Odstęp od lewej krawędzi */
+            padding-left: 8%;
         }
 
-        /* Karta z informacjami */
+        /* Karta PseudoPKP */
         .card {
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 48px;
-            max-width: 480px;
+            border-radius: 28px;
+            padding: 50px;
+            max-width: 520px;
             width: 100%;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
-            animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            animation: slideIn 0.7s ease-out;
         }
 
         h1 {
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             margin: 0;
             font-weight: 500;
-            letter-spacing: -0.5px;
+            letter-spacing: -1.5px;
+            color: #1a1a1a;
         }
 
         .tagline {
             color: var(--google-blue);
-            font-size: 1.1rem;
-            margin-bottom: 24px;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
             font-weight: 500;
         }
 
         p {
             line-height: 1.6;
             color: var(--text-sub);
-            font-size: 1.05rem;
+            font-size: 1.1rem;
         }
 
-        /* Animacja torów pod tekstem */
-        .rail-anim {
+        /* Animacja pociągu */
+        .rail-track {
             width: 100%;
             height: 2px;
-            background: #f1f3f4;
-            margin: 32px 0;
+            background: #e8eaed;
+            margin: 35px 0;
             position: relative;
         }
 
         .train {
             position: absolute;
-            top: -15px;
-            left: 0;
-            font-size: 1.4rem;
-            animation: driveTrain 6s linear infinite;
+            top: -18px;
+            font-size: 1.6rem;
+            animation: move 7s linear infinite;
         }
 
-        /* Przyciski */
         .buttons {
             display: flex;
-            gap: 16px;
-            margin-top: 32px;
+            gap: 15px;
+            margin-top: 35px;
         }
 
         .btn {
-            padding: 12px 24px;
-            border-radius: 100px; /* Styl Google "Pill" */
+            padding: 14px 28px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 500;
-            transition: 0.2s ease;
-            font-size: 0.95rem;
-            display: inline-block;
-            text-align: center;
+            transition: 0.3s;
+            font-size: 1rem;
         }
 
-        .btn-blue {
-            background: var(--google-blue);
-            color: white;
-        }
+        .btn-blue { background: var(--google-blue); color: white; }
+        .btn-outline { border: 1px solid #dadce0; color: var(--google-blue); }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--google-blue);
-            border: 1px solid #dadce0;
-        }
+        .btn:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        .btn:hover {
-            box-shadow: 0 1px 3px rgba(60,64,67, 0.3), 0 4px 8px 3px rgba(60,64,67, 0.15);
-            filter: brightness(1.05);
-        }
-
-        /* Animacje */
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-60px); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-40px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        @keyframes driveTrain {
+        @keyframes move {
             0% { left: -10%; }
             100% { left: 100%; }
         }
 
-        /* Programistyczny detal */
-        .version-info {
-            margin-top: 32px;
+        .terminal {
+            margin-top: 35px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #bdc1c6;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
         }
     </style>
 </head>
@@ -168,12 +152,12 @@
 
     <div class="main-container">
         <div class="card">
-            <h1>PPKP</h1>
-            <div class="tagline">Polska Państwowa Kolej Projektowa</div>
+            <h1>PseudoPKP</h1>
+            <div class="tagline">Prawie jak prawdziwa kolej</div>
 
-            <p>Dołącz do profesjonalnego serwera kolejowego Minecraft. Tworzymy realistyczne składy i infrastrukturę na silniku Forge.</p>
+            <p>Najlepszy (i jedyny taki) serwer kolejowy na modach Forge. Budujemy tory, bo lubimy pociągi, a nie opóźnienia!</p>
             
-            <div class="rail-anim">
+            <div class="rail-track">
                 <div class="train">🚂</div>
             </div>
 
@@ -182,8 +166,8 @@
                 <a href="https://discord.gg/KYSZdvXafS" target="_blank" class="btn btn-outline">Discord</a>
             </div>
 
-            <div class="version-info">
-                python@ppkp:~$ ./start_server.sh --region=dolnoslaskie
+            <div class="terminal">
+                python3 pseudo_pkp_controller.py --mode=full_speed
             </div>
         </div>
     </div>
